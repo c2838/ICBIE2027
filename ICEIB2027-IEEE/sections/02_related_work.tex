@@ -1,0 +1,10 @@
+\section{Related Work}
+ReAct provides an example of a language model interleaving reasoning with actions that retrieve external information \cite{yao2023react}. In the proposed system, the agent selects from predefined tools, and the application validates the requested parameters and retrieved records. The UCI Occupancy Detection dataset provides indoor measurements with occupancy labels \cite{uci_occupancy}. In this project, it is considered for checking the preprocessing workflow. Labels for appliance operation will be collected separately through operation logs and user feedback. The CBE Thermal Comfort Tool illustrates the use of multiple inputs in thermal comfort assessment \cite{tartarini2020cbe}. Our single-room prototype will report the limits of recommendations based on temperature and relative humidity measurements.
+
+
+Prior smart-home research, including CASAS, provides a precedent for collecting residential sensor observations and analyzing daily activities \cite{cook2013casas}. Our target labels describe actions such as operating an appliance or opening a window, so the evaluation requires records collected in the monitored room. Statistical changepoint methods locate changes in a time series \cite{killick2012changepoints}. The proposed prototype uses a sustained-change rule to identify candidate events and links those detections to separately collected operation reports.
+
+Ecological momentary assessment motivates collecting reports close to an event in everyday settings \cite{shiffman2008ema}. Event-triggered prompts ask about possible actions while the context is recent. Because replies can be delayed or uncertain, the system records event onset, prompt time, reply time, and reported operation time separately. Table~\ref{tab:literature} compares the related studies. MQTT and PROV-O provide technical specifications for sensor messaging and provenance representation, respectively \cite{oasis2019mqtt,w3c2013provo}.
+
+\input{tables/literature}
+

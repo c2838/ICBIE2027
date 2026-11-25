@@ -1,0 +1,26 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  timeline/.style={draw, rounded corners, align=left, text width=48mm, font=\footnotesize, inner sep=3pt},
+  time/.style={font=\footnotesize, anchor=east},
+  node distance=3mm
+]
+% The times are illustrative. Each box explains what becomes available at that point.
+\node[timeline] (action) {Resident opens window. Independent log supplies a label for evaluation.};
+\node[timeline,below=of action] (detect) {Sustained sensor change triggers a candidate. Use readings available by detection.};
+\node[timeline,below=of detect] (prompt) {Prompt is issued and linked to the candidate event.};
+\node[timeline,below=of prompt] (expire) {Prompt expires. Event label remains unknown.};
+\node[timeline,below=of expire] (reply) {Late reply confirms window opening. Keep the recorded expiry.};
+\node[time,left=3mm of action] {08:00};
+\node[time,left=3mm of detect] {08:04};
+\node[time,left=3mm of prompt] {08:05};
+\node[time,left=3mm of expire] {08:10};
+\node[time,left=3mm of reply] {08:13};
+\draw[flowarrow] (action) -- (detect);
+\draw[flowarrow] (detect) -- (prompt);
+\draw[flowarrow] (prompt) -- (expire);
+\draw[flowarrow] (expire) -- (reply);
+\end{tikzpicture}
+\caption{Illustrative event timeline. The independent log and later reply may establish the label for evaluation. The detector only uses measurements available at 08:04. Times are examples.}
+\label{fig:event-timeline}
+\end{figure}

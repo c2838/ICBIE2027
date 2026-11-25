@@ -1,0 +1,28 @@
+\section{Planned Evaluation}
+Approximately two weeks of single-room data collection are planned. The collection will include ordinary periods, independently logged actions, and system-triggered prompts. Table~\ref{tab:evaluation} summarizes the planned comparisons. Thresholds and classifier settings will be selected during development. Complete events will be split chronologically, with later events held out and features restricted to information available at decision time. This respects dependence between nearby observations \cite{roberts2017cv}. All windows derived from an event remain in the same partition. We will report confirmed events by class and count unknown events separately from supervised scoring.
+
+\input{tables/evaluation}
+
+\subsection{Event Classification}
+The primary comparison will distinguish recorded actions from explicitly confirmed no-action events. Unknown cases will be counted separately. This comparison estimates classification performance among labeled candidates produced by the shared detector. We will also audit detection against independently logged actions during held-out periods with valid sensor coverage. Before evaluating the holdout, we will choose a matching window on development data and specify how to resolve overlapping events. Each matched candidate will count once. An eligible logged action with no matched candidate will count as missed, including actions that prompted no question. We will report coverage as matched logged actions divided by eligible logged actions, along with the counts of missed actions and logged actions excluded for unavailable sensor coverage.
+
+If there are enough labels, an extension will train the same type of decision tree on independent operation logs alone and on logs augmented with prompted confirmations. Both versions will use the same held-out events to assess the value of the additional labels.
+
+\subsection{Prompt Burden and Recommendation Quality}
+The two prompt strategies will be replayed on the same measurement stream to compare prompt frequency and duplication. Prompt frequency is issued prompts divided by monitored hours. The repeated-prompt rate is the fraction of prompted events receiving more than one prompt. The observed reply rate is the fraction of issued prompts with a recorded reply, computed from actual interactions. Fixed templates and the agent will be assessed on the same appliance, outing, and laundry scenarios. Checks will cover location, forecast validity, reported values, known device state, and handling of stale forecasts or API failures.
+
+\subsection{Scenario Construction and Scoring}
+Each test case will specify the query, source records available at query time, required evidence fields, and expected behavior. The fixed-template system and tool-using agent will receive the same queries and records. A response passes when it includes the required evidence, matches the source values and time intervals, and avoids unsupported claims about weather or device state. Report both case-level pass rates and field-level error counts. Clarification performance will be scored over cases requiring a question or a statement of data limitations. Measure latency from query submission to availability of the final answer for both systems.
+
+Table~\ref{tab:scenarios} illustrates the acceptance criteria. A stale-forecast case is distinct from a missing-destination case: the former tests forecast validity, while the latter tests whether the system requests essential context before retrieval. In a partial-data case, the user should still receive the source-backed portion of the answer. Each scenario will preserve the input snapshots so that the two approaches can be compared without changes in the live forecast.
+
+\input{tables/scenarios}
+
+\subsection{Failure-Case Evaluation}
+The sensor pipeline will be tested with an isolated spike, a gap followed by valid readings, and a prompt that expires without a reply. The isolated spike should fail the persistence check. After a gap, an event may be considered once the required contiguous window has been re-established. An expired prompt should leave an unconfirmed event labeled unknown. A separate late-reply case will check that an explicit confirmation updates the event record while preserving the earlier expiry. Each check compares the resulting event and prompt records with the expected state transition. Figure~\ref{fig:event-timeline} illustrates which information is available at detection and which can be used to label the event later.
+
+\input{figures/event_timeline}
+
+\section{Limitations}
+The prototype will observe temperature and relative humidity at one point in one room. Air movement, radiant conditions, clothing, and activity are outside this measurement scope. Reported operation times may be delayed or uncertain, and multiple actions may produce overlapping trends. Township forecasts describe an area and validity window. Their applicability to a specific balcony or outdoor drying site is limited. Sparse labels or class imbalance will limit the interpretation of the classifier comparison.
+

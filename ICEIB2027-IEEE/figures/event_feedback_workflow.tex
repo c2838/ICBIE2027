@@ -1,0 +1,24 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\node[flowstep] (v) at (0,0) {Validate readings and check for sustained change};
+\node[flowstep] (e) at (0,-1.25) {Merge or create an event};
+\node[flowstep] (p) at (0,-2.35) {Eligible to prompt?};
+\node[branch] (defer) at (-1.85,-3.95) {Retain event and continue monitoring};
+\node[branch] (ask) at (1.85,-3.95) {Open prompt with a deadline};
+\node[flowstep] (r) at (0,-5.4) {Confirmed reply received?};
+\node[branch] (y) at (-1.85,-7.0) {Link action and reported time to event};
+\node[branch] (u) at (1.85,-7.0) {Record status as unknown};
+\draw[flowarrow] (v)--node[right,font=\scriptsize]{Sustained change}(e);
+\draw[flowarrow] (e)--(p);
+\draw (p.south)--(0,-3.15);
+\draw[flowarrow] (0,-3.15)-|node[pos=.24,above,font=\scriptsize]{No}(defer.north);
+\draw[flowarrow] (0,-3.15)-|node[pos=.24,above,font=\scriptsize]{Yes}(ask.north);
+\draw[flowarrow] (ask.south)--(1.85,-4.72)-|(r.north);
+\draw (r.south)--(0,-6.2);
+\draw[flowarrow] (0,-6.2)-|node[pos=.24,above,font=\scriptsize]{Yes}(y.north);
+\draw[flowarrow] (0,-6.2)-|node[pos=.24,above,font=\scriptsize]{Expired or uncertain}(u.north);
+\end{tikzpicture}
+\caption{Background monitoring and user feedback. Monitoring continues during pending prompts and when prompting is deferred.}
+\label{fig:event-feedback-workflow}
+\end{figure}

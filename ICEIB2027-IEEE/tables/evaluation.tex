@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\caption{Research Questions and Planned Evaluation.}
+\label{tab:evaluation}
+\centering\footnotesize
+\begin{tabular}{@{}p{.20\textwidth}p{.23\textwidth}p{.20\textwidth}p{.30\textwidth}@{}}
+\hline
+Research question & Comparison & Test unit & Planned measures \\
+\hline
+RQ1. Can room observations distinguish actions from no-action periods? &
+Fixed rules vs.\ decision tree on the same holdout. Audit the shared detector separately. &
+Labeled candidate event for classification. Independently logged action for detection. &
+Class counts, precision, recall, macro-F1, and confusion matrix. Report detection coverage and missed-action counts separately. \\
+RQ2. Does the prompt policy reduce burden? &
+Basic prompting vs.\ event merging and a minimum prompt interval on the same replay. &
+Monitored hour and prompted event. &
+Prompts per hour and repeated-prompt rate in replay. Reply rate from observed interactions. \\
+RQ3. Does the agent produce evidence-grounded advice? &
+Fixed templates vs.\ tool-using agent with identical queries and source snapshots. &
+Paired appliance, outing, or laundry scenario. &
+Case pass rate, field errors, appropriate clarification, and response latency. \\
+\hline
+\end{tabular}
+\end{table*}

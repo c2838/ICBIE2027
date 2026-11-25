@@ -1,0 +1,27 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\node[arch] (q) at (0,0) {Web query and context};
+\node[arch] (p) at (3,0) {Planner and tool routing};
+\node[arch] (d) at (6,0) {Data acquisition};
+\node[arch] (a) at (9,0) {Quality checks, trends, and events};
+\node[arch] (s) at (3,1.4) {ESP32 via MQTT};
+\node[arch] (w) at (9,1.4) {CWA forecasts};
+\node[arch] (c) at (9,-1.5) {Decision and evidence checks};
+\node[arch] (k) at (12,-1.5) {Domain rules and preferences};
+\node[arch] (o) at (6,-1.5) {Advice, prompts, and feedback};
+\node[arch] (db) at (3,-1.5) {SQLite records};
+\draw[flowarrow] (q)--(p);
+\draw[flowarrow] (p)--(d);
+\draw[flowarrow] (s.east)--(5.6,1.4)--([xshift=-4mm]d.north);
+\draw[flowarrow] (w.west)--(6.4,1.4)--([xshift=4mm]d.north);
+\draw[flowarrow] (d)--(a);
+\draw[flowarrow] (a)--(c);
+\draw[flowarrow] (k)--(c);
+\draw[flowarrow] (c)--(o);
+\draw[flowarrow] (o)--(db);
+\draw[flowarrow] (db.south) -- (3,-2.35) -- node[below,font=\scriptsize]{Retrieve records} (-1.55,-2.35) -- (-1.55,2.35) -- (6,2.35) -- (d.north);
+\end{tikzpicture}
+\caption{System architecture and data flow. The interaction layer stores user feedback with its associated event identifier.}
+\label{fig:architecture}
+\end{figure*}

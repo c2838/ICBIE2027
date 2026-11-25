@@ -1,0 +1,24 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\node[flowstep] (q) at (0,0) {Can I dry laundry outdoors this afternoon?};
+\node[flowstep] (ctx) at (0,-1.1) {Resolve drying location and time window};
+\node[branch] (fc) at (-1.85,-2.65) {Forecast for the requested place and period};
+\node[branch] (rh) at (1.85,-2.65) {Recent room readings for an indoor comparison};
+\node[flowstep] (rule) at (0,-4.2) {Check evidence and apply rules. Forecast usable?};
+\node[branch] (ok) at (-1.85,-5.85) {Return conditional advice with source and time};
+\node[branch] (miss) at (1.85,-5.85) {Report available indoor evidence and flag unresolved outdoor conditions};
+\draw[flowarrow] (q)--(ctx);
+\draw (ctx.south)--(0,-1.83);
+\draw[flowarrow] (0,-1.83)-|(fc.north);
+\draw[flowarrow] (0,-1.83)-|(rh.north);
+\draw (fc.south)|-(0,-3.47);
+\draw (rh.south)|-(0,-3.47);
+\draw[flowarrow] (0,-3.47)--(rule.north);
+\draw (rule.south)--(0,-5.0);
+\draw[flowarrow] (0,-5.0)-|node[pos=.25,above,font=\scriptsize]{Yes}(ok.north);
+\draw[flowarrow] (0,-5.0)-|node[pos=.25,above,font=\scriptsize]{No}(miss.north);
+\end{tikzpicture}
+\caption{Evidence used in a laundry-drying recommendation. The application records forecast validity, indoor observation time when applicable, and the rule version.}
+\label{fig:laundry-evidence}
+\end{figure}

@@ -1,0 +1,9 @@
+\section{Introduction}
+Household decisions can depend on both current indoor conditions and expected outdoor conditions. For example, a user deciding where to dry laundry may need the current humidity in a room and the probability of rain at an outdoor location later in the day. Each source describes a different place, time period, and type of observation. A recommendation should make these distinctions clear so that users can judge whether the evidence applies to their situation.
+
+A second challenge is interpreting changes in indoor measurements. A sustained drop in relative humidity can accompany appliance use, ventilation, or changes in temperature. The proposed system treats such changes as candidate events and uses user feedback to associate them with reported actions.
+
+This proposal describes two workflows: an on-demand recommendation workflow that checks the evidence for each response, and a background monitoring workflow that links environmental events to user feedback.
+
+This proposal has three objectives: to link recommendations to their sources, locations, and applicable times; to collect event confirmations while limiting repeated prompts; and to compare classification, prompting, and recommendation methods under shared test conditions.
+

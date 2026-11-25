@@ -1,0 +1,61 @@
+\begin{table*}[t]
+\caption{Article Summary Table}
+\label{tab:literature}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{.10\textwidth}p{.11\textwidth}p{.12\textwidth}p{.135\textwidth}p{.135\textwidth}p{.14\textwidth}p{.14\textwidth}@{}}
+\hline
+Study & Objective & Method & Data or setting & Main finding or contribution & Limit for this study & Use in this proposal \\
+\hline
+ReAct \cite{yao2023react} &
+Integrate reasoning and action &
+Alternate reasoning with tool calls &
+Question answering, fact verification, and interactive tasks &
+Actions retrieve evidence that can inform subsequent reasoning &
+Benchmarks differ from room sensing and weather advice &
+Route queries to predefined tools and validate evidence \\
+UCI Occupancy Detection \cite{uci_occupancy} &
+Identify room occupancy &
+Binary classification with photo-derived labels &
+Office temperature, humidity, light, and carbon dioxide &
+Provides time-series training and test sets with occupancy labels &
+Occupancy labels do not distinguish appliance or window actions &
+Check preprocessing and collect separate operation logs \\
+CBE Thermal Comfort Tool \cite{tartarini2020cbe} &
+Assess thermal comfort &
+Web implementation of comfort models &
+Environmental and personal inputs &
+Makes model-based comfort calculations available online &
+This prototype observes only temperature and humidity &
+Keep comfort advice conditional on available evidence \\
+CASAS \cite{cook2013casas} &
+Support smart-home activity studies &
+Deploy residential sensing and activity analysis &
+Smart-home sensor observations &
+Describes a platform for observing everyday activities &
+Activity categories do not supply labels for this room &
+Collect and label actions in the monitored room \\
+Killick et al.\ \cite{killick2012changepoints} &
+Locate multiple changes &
+Pruned exact minimization of a penalized cost &
+Simulated time series and application data &
+Linear computational cost under stated conditions &
+A detected change does not identify its physical cause &
+Use sustained change to propose candidate events \\
+Shiffman et al.\ \cite{shiffman2008ema} &
+Study experience in everyday settings &
+Review of repeated reports close to events &
+Ambulatory behavioral research &
+Describes methods for reducing retrospective recall demands &
+Completeness depends on whether participants respond &
+Record prompt, reply, and reported action times separately \\
+Roberts et al.\ \cite{roberts2017cv} &
+Validate models with dependent observations &
+Review and comparison of blocked validation &
+Examples with structured ecological data &
+Blocking can reduce bias from dependence across splits &
+The split must match the intended prediction setting &
+Keep events intact and hold out later events \\
+\hline
+\end{tabular}
+\end{table*}

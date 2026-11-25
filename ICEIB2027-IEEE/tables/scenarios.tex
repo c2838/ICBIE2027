@@ -1,0 +1,16 @@
+\begin{table}[t]
+\caption{Example scenarios and acceptance criteria}
+\label{tab:scenarios}
+\centering\footnotesize
+\begin{tabular}{@{}p{.42\columnwidth}p{.52\columnwidth}@{}}
+\hline
+Test case & Expected behavior \\
+\hline
+Missing outing destination & Request destination before selecting a forecast. \\
+Expired drying forecast & Explain that the forecast fails to cover the requested window. \\
+Weather API failure & Report valid indoor evidence and flag outdoor conditions as unresolved. \\
+Unknown appliance state & Give conditional advice and keep the state unknown. \\
+Indoor and outdoor evidence available & Report the correct room observation time and forecast validity interval. \\
+\hline
+\end{tabular}
+\end{table}

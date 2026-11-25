@@ -1,0 +1,49 @@
+\section{Proposed System}
+\subsection{System Architecture}
+Figure~\ref{fig:architecture} shows the query and monitoring paths. In the query path, the Web interface captures the question and context. The planner selects permitted tools, the acquisition layer retrieves records, and the analytics engine checks and processes them. The decision module combines these records with versioned domain rules and user preferences. The interface presents the advice with its supporting evidence. In the monitoring path, the same analytics engine processes incoming measurements and creates candidate events. Replies are linked to the corresponding event identifier in SQLite.
+
+\input{figures/architecture}
+
+\subsection{Data Acquisition and Alignment}
+An ESP32 sensing node will transmit timestamped room temperature and relative humidity (RH) measurements via MQTT. SQLite will store the readings with room identifiers, receive times, and quality flags. Taiwan's Central Weather Administration (CWA) forecasts will be selected by the requested administrative area and validity window \cite{cwa_open_data}. Forecast snapshots will retain retrieval time and the source response. A forecast issue time will be recorded when supplied. The application will check missing values, ordering, continuity, and freshness before analysis.
+
+\subsection{Evidence-Based Recommendations}
+As shown in Fig.~\ref{fig:recommendation-workflow}, the workflow retrieves the records required by the user's intent. Outdoor laundry drying requires a forecast for the specified location and time. Comparing indoor and outdoor drying also requires recent room measurements. Python performs numerical checks and applies versioned domain rules. The language model selects from permitted tools, requests clarifications, and explains the recommendation. When an explanation conflicts with verified evidence, the application falls back to a rule-based response template. The response can report source values, locations, applicable times, and any known appliance state. Users operate the appliances themselves.
+
+\input{figures/recommendation_workflow}
+
+\subsection{Domain Rules and Decision Boundaries}
+Table~\ref{tab:domain-rules} distinguishes the evidence required by a rule from the conclusions the system can draw. Each rule applies to a specific intent and checks the relevant time window before producing advice. A room measurement supports advice about the monitored room. An outdoor forecast supports advice for its covered location and interval \cite{cwa_open_data}. When an input is unavailable, the system states which part of the advice remains conditional.
+
+\input{tables/domain_rules}
+
+Thermal comfort depends on environmental and personal inputs beyond room temperature and relative humidity \cite{tartarini2020cbe}. In an appliance-use query, the system can explain a sustained humidity increase and offer conditional advice. If the device state is unknown, the response preserves that uncertainty. In a laundry query, the system can compare valid indoor and outdoor evidence, while the decision to use an appliance or move laundry remains with the user.
+
+\subsection{Evidence Records and Worked Example}
+The sensing node publishes room measurements through MQTT \cite{oasis2019mqtt}, and a receiver persists them in SQLite. Drawing on the distinction between source entities and processing activities in provenance models \cite{w3c2013provo}, the system links each advice record to the query context, measurement identifiers, forecast snapshots, rule identifier and version, and response status. The measurement time records when the indoor condition was observed. The forecast validity interval records when the prediction applies, and its retrieval timestamp records when the system obtained it.
+
+Consider a user asking whether to move laundry outdoors in the afternoon (Fig.~\ref{fig:laundry-evidence}). The application resolves the drying location and time window before selecting a forecast. A comparison with indoor drying also requires recent valid measurements from the monitored room. If the forecast indicates a chance of rain and the room is humid, the advice may present options such as postponing outdoor drying or choosing a better-ventilated indoor location. Each option is accompanied by the source and applicable time that support it.
+
+If the weather API is unavailable or the available forecast does not cover the requested interval, the response can still report usable indoor measurements and identify the unresolved outdoor conditions. Drying duration also depends on airflow and garment properties, which are outside the measurement scope.
+
+\input{figures/laundry_evidence}
+
+\subsection{Event Detection and User Feedback}
+Figure~\ref{fig:event-feedback-workflow} shows the monitoring workflow. Recent contiguous readings are used to compute smoothed trends and to identify sustained changes. Following a data gap, the application rebuilds the analysis window from valid contiguous measurements. Continuous detections are merged into one event. The prompt policy checks for an unanswered prompt and enforces a minimum interval between prompts. Monitoring continues while the system waits for a reply.
+
+Event onset, prompt time, reply time, and reported operation time are recorded separately. An expired or uncertain reply is recorded as unknown. A late confirmation can be linked to the original event while preserving the earlier record. Operation logs and confirmed replies support event labeling. Confirmed mixed operations are retained, and confirmed periods without actions provide examples of the no-operation class.
+
+\input{figures/event_feedback_workflow}
+
+\subsection{Event Monitoring Protocol}
+The event loop handles sensor readings, prompt deadlines, and user replies separately. The monitoring window contains contiguous valid observations. A gap resets that window, so observations collected before a disconnect cannot support a sustained-change decision after recovery. When a change persists, the same event identifier is used for subsequent updates and any prompt tied to that event.
+
+\input{figures/event_pseudocode}
+
+Fig.~\ref{fig:event-pseudocode} distinguishes expiry from the event label. For example, a resident may confirm opening a window after the deadline. The prompt history still records that it expired, and the later report can supply the event's confirmed label. An ambiguous reply remains unknown unless another record confirms the action. For binary evaluation, confirmed mixed operations belong to the action class, and their original operation details remain available for inspection.
+
+\subsection{Design Rationale}
+Fixed rules provide an interpretable baseline for the first deployment. Their thresholds and persistence settings can be documented and applied to the same held-out events as the decision tree. The learned model may capture interactions between temperature, humidity, and recent trends. Its evaluation depends on the quantity and coverage of confirmed labels. Both approaches will be assessed on the same event partitions, with features limited to information available at decision time.
+
+Event-triggered prompting targets changes that may need clarification, while independent operation logs also record actions that do not trigger the detector. Event merging and a minimum interval reduce opportunities for repeated prompts. Because unanswered prompts and ambiguous replies can change which events obtain labels, the evaluation will report label coverage alongside classification scores. The replay assesses prompt frequency and duplication, and actual interactions provide observed reply rates.
+

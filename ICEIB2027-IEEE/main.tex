@@ -1,0 +1,52 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\tikzset{
+  arch/.style={draw,rounded corners,align=center,text width=22mm,minimum height=8mm,font=\footnotesize},
+  flowstep/.style={draw,rounded corners,align=center,text width=62mm,minimum height=6mm,font=\footnotesize},
+  branch/.style={draw,rounded corners,align=center,text width=30mm,minimum height=8mm,font=\footnotesize},
+  flowarrow/.style={-{Stealth[length=1.5mm]}}
+}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{An IoT Agent for Home and Outing Recommendations Using Indoor Sensing and Weather Forecasts}
+
+\author{\IEEEauthorblockN{KAO CHUN HSUAN, ZHONG YI XIAN, and Xiao Cheng-Yun}
+\IEEEauthorblockA{Department of Computer Science and Engineering\\ National Chung Hsing University\\ Taichung, Taiwan}}
+
+\maketitle
+
+% Preserve the citation numbering from the original manuscript.
+\nocite{yao2023react,
+  uci_occupancy,
+  tartarini2020cbe,
+  cwa_open_data,
+  cook2013casas,
+  killick2012changepoints,
+  shiffman2008ema,
+  roberts2017cv,
+  w3c2013provo,
+  oasis2019mqtt}
+
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_proposed_system}
+\input{sections/04_experiments}
+\input{sections/05_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

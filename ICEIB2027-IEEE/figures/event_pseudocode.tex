@@ -1,0 +1,27 @@
+\begin{figure}[t]
+\begin{minipage}{\columnwidth}
+\small
+\begin{algorithmic}[1]
+\STATE \textbf{On a new sensor reading:}
+\IF{the reading is invalid or follows a data gap}
+    \STATE Log the quality issue and reset the analysis window.
+\ELSIF{the valid window shows sustained change}
+    \STATE Create or update the candidate event.
+    \IF{no prompt is pending and the interval has elapsed}
+        \STATE Issue a prompt with the event ID and deadline.
+    \ENDIF
+\ENDIF
+\STATE \textbf{On a prompt deadline:}
+\IF{no reply has arrived}
+    \STATE Record expiry and mark an unconfirmed event unknown.
+\ENDIF
+\STATE \textbf{On a user reply:}
+\STATE Find the event and record reply and reported action times.
+\IF{the reply confirms an action or explicitly confirms no action}
+    \STATE Save the confirmed label and retain the prompt history.
+\ENDIF
+\end{algorithmic}
+\end{minipage}
+\caption{Pseudocode for event monitoring and feedback labeling.}
+\label{fig:event-pseudocode}
+\end{figure}

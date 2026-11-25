@@ -1,0 +1,20 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\node[flowstep] (q) at (0,0) {Interpret question and check required context};
+\node[branch] (missing) at (-1.85,-1.6) {Ask for missing details};
+\node[branch] (fetch) at (1.85,-1.6) {Retrieve room data or forecasts};
+\node[flowstep] (check) at (0,-3.05) {Evidence applicable, fresh, and sufficient?};
+\node[branch] (yes) at (-1.85,-4.65) {Apply rules and return advice with evidence};
+\node[branch] (no) at (1.85,-4.65) {Explain the data limitation};
+\draw (q.south)--(0,-.78);
+\draw[flowarrow] (0,-.78)-|node[pos=.24,above,font=\scriptsize]{Missing}(missing.north);
+\draw[flowarrow] (0,-.78)-|node[pos=.24,above,font=\scriptsize]{Available}(fetch.north);
+\draw[flowarrow] (fetch.south)--(1.85,-2.39)-|(check.north);
+\draw (check.south)--(0,-3.86);
+\draw[flowarrow] (0,-3.86)-|node[pos=.24,above,font=\scriptsize]{Yes}(yes.north);
+\draw[flowarrow] (0,-3.86)-|node[pos=.24,above,font=\scriptsize]{No}(no.north);
+\end{tikzpicture}
+\caption{Evidence-based recommendation workflow. Missing query context is requested before retrieval.}
+\label{fig:recommendation-workflow}
+\end{figure}
